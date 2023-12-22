@@ -1,0 +1,336 @@
+{
+	"info": {
+		"_postman_id": "29add24f-c92f-48b9-86e3-47e4bb0242d8",
+		"name": "JIRA_Assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17672845"
+	},
+	"item": [
+		{
+			"name": "CreateTicket",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"New Bug Logged\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"var jiraResp = pm.response.json();\r",
+							"var jID = jiraResp.key;\r",
+							"pm.globals.set(\"JiraID\", jID);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fields\": {\r\n        \"project\": {\r\n            \"key\": \"FENG\"\r\n        },\r\n        \"summary\": \"create issue in RA project\",\r\n        \"description\": \"Creating of an issue using project keys and issue type names using the REST API\",\r\n        \"issuetype\": {\r\n            \"name\": \"Bug\"\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://kabirinfotech.atlassian.net/rest/api/2/issue/",
+					"protocol": "https",
+					"host": [
+						"kabirinfotech",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"issue",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Assignee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Assignee Changed\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"accountId\":\"712020:26c2e42e-1980-44ee-9b79-5ac3a48cfc43\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://kabirinfotech.atlassian.net/rest/api/3/issue/{{JiraID}}/assignee",
+					"protocol": "https",
+					"host": [
+						"kabirinfotech",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"3",
+						"issue",
+						"{{JiraID}}",
+						"assignee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateTicket",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Description Update\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fields\": {\r\n\r\n        \"description\": \"Bug creation Using REST API for testing\"\r\n    }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://kabirinfotech.atlassian.net/rest/api/2/issue/{{JiraID}}",
+					"protocol": "https",
+					"host": [
+						"kabirinfotech",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"issue",
+						"{{JiraID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddComments",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Comment Updated\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"body\": {\n        \"version\": 1,\n        \"type\": \"doc\",\n        \"content\": [\n            {\n                \"type\": \"paragraph\",\n                \"content\": [\n                    {\n                        \"type\": \"text\",\n                        \"text\": \"New comments added by kabir\"\n                    }\n                ]\n            }\n        ]\n    },\n    \"visibility\": null\n}"
+				},
+				"url": {
+					"raw": "https://kabirinfotech.atlassian.net/rest/api/3/issue/{{JiraID}}/comment",
+					"protocol": "https",
+					"host": [
+						"kabirinfotech",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"3",
+						"issue",
+						"{{JiraID}}",
+						"comment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ChangeStatus",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status changed to Done\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"transition\": {\n        \"id\": \"31\",\n        \"name\": \"Done\",\n        \"hasScreen\": false,\n        \"isGlobal\": true,\n        \"isInitial\": false,\n        \"isConditional\": false,\n        \"isLooped\": false,\n        \"to\": {\n            \"id\": \"10004\",\n            \"name\": \"Done\",\n            \"statusCategory\": {\n                \"id\": 3\n            }\n        }\n    }\n}"
+				},
+				"url": {
+					"raw": "https://kabirinfotech.atlassian.net/rest/api/3/issue/{{JiraID}}/transitions",
+					"protocol": "https",
+					"host": [
+						"kabirinfotech",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"3",
+						"issue",
+						"{{JiraID}}",
+						"transitions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteTicket",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Bug Deleted\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://kabirinfotech.atlassian.net/rest/api/2/issue/{{JiraID}}",
+					"protocol": "https",
+					"host": [
+						"kabirinfotech",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"issue",
+						"{{JiraID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "ATATT3xFfGF0A7VQI9eKicfOH2C-T3gwMJwp6ckfjhCL-apC9wlIPC8465oyVDZ6Mf5kHZfj1qjLuwh7l-sAln9NxjstBxdK58qLhCSMo9it7QSslmd_2Thcq2pp8Or_cn8-Wb9zbzpGUGMgUNLXqtYG1t0Jvj4XeQgRrnT0DClOeEgxFHVwxfI=CD46BBDE",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "karthikit73@gmail.com",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

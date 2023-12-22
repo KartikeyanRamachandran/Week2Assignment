@@ -1,0 +1,39 @@
+{
+	"id": "24893de4-33df-4709-8912-cbb4d42cb096",
+	"values": [
+		{
+			"key": "GSys_id",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "Access_token",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "system_id",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "JiraID",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "JiraKey",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2023-12-22T04:00:14.455Z",
+	"_postman_exported_using": "Postman/10.21.8"
+}
